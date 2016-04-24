@@ -1,0 +1,56 @@
+<!DOCTYPE web-app PUBLIC
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  <display-name>URL Shortener API</display-name>
+  <description>
+    HTTP service designed according to REST architectural style. API contains following functionalities:
+    - Registering new user and shortened URL
+    - Redirecting client depending on shortened URL
+    - Generating hit statistics
+  </description>
+
+  <servlet>
+    <servlet-name>HelpServlet</servlet-name>
+    <servlet-class>lm.shortener.service.HelpServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>AccountServlet</servlet-name>
+    <servlet-class>lm.shortener.service.AccountServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>RegisterServlet</servlet-name>
+    <servlet-class>lm.shortener.service.RegisterServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>StatisticServlet</servlet-name>
+    <servlet-class>lm.shortener.service.StatisticServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ShortServlet</servlet-name>
+    <servlet-class>lm.shortener.service.ShortServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>HelpServlet</servlet-name>
+    <url-pattern>/help</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AccountServlet</servlet-name>
+    <url-pattern>/account</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>RegisterServlet</servlet-name>
+    <url-pattern>/register</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>StatisticServlet</servlet-name>
+    <url-pattern>/statistic/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ShortServlet</servlet-name>
+    <url-pattern>/short/*</url-pattern>
+  </servlet-mapping>
+
+</web-app>
