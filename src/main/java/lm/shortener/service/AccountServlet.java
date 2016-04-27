@@ -14,7 +14,7 @@ import java.io.IOException;
 public class AccountServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        AccountDaoImpl accountDao = new AccountDaoImpl(getServletContext().getRealPath("/data"));
+        AccountDaoImpl accountDao = new AccountDaoImpl(getServletContext().getRealPath(ServiceHelper.DATA_DIR));
         JSONObject jsonAccount = ServiceHelper.generateJson(request.getReader());
 
         JSONObject jsonResponse = new JSONObject();
@@ -23,7 +23,7 @@ public class AccountServlet extends HttpServlet {
             jsonResponse.put("success", true);
             if (accountDao.find(accountId) == null) {
                 String password = ServiceHelper.generatePassword();
-                Account account = new Account(accountId, password);
+                Account account = new Account(accountId, password, false);
                 if (accountDao.create(account)) {
                     jsonResponse.put("description", "Your account has been successfully created.");
                     jsonResponse.put("password", password);
@@ -33,7 +33,7 @@ public class AccountServlet extends HttpServlet {
             } else {
                 jsonResponse.put("description", "Account with provided id already exists.");
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             jsonResponse.put("success", false);
             jsonResponse.put("description", "Account cannot be created. Invalid input parameters.");
         }

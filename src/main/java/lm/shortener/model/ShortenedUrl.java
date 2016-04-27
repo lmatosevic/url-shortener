@@ -2,19 +2,22 @@ package lm.shortener.model;
 
 public class ShortenedUrl {
 
-    private String shortUrl;
+    private String shortUrlCode;
     private String fullUrl;
+    private String redirectType;
     private int visits;
 
-    public ShortenedUrl(String shortUrl, String fullUrl) {
+    public ShortenedUrl(String shortUrlCode, String fullUrl, String redirectType) {
         this.fullUrl = fullUrl;
-        this.shortUrl = shortUrl;
+        this.shortUrlCode = shortUrlCode;
+        this.redirectType = redirectType;
         this.visits = 0;
     }
 
-    public ShortenedUrl(String fullUrl, String shortUrl, int visits) {
+    public ShortenedUrl(String shortUrlCode, String fullUrl, String redirectType, int visits) {
         this.fullUrl = fullUrl;
-        this.shortUrl = shortUrl;
+        this.shortUrlCode = shortUrlCode;
+        this.redirectType = redirectType;
         this.visits = visits;
     }
 
@@ -26,12 +29,12 @@ public class ShortenedUrl {
         this.fullUrl = fullUrl;
     }
 
-    public String getShortUrl() {
-        return shortUrl;
+    public String getShortUrlCode() {
+        return shortUrlCode;
     }
 
-    public void setShortUrl(String shortUrl) {
-        this.shortUrl = shortUrl;
+    public void setShortUrlCode(String shortUrl) {
+        this.shortUrlCode = shortUrl;
     }
 
     public int getVisits() {
@@ -42,7 +45,19 @@ public class ShortenedUrl {
         return String.valueOf(visits);
     }
 
+    public String getRedirectType() {
+        return redirectType;
+    }
+
+    public void setRedirectType(String redirectType) {
+        this.redirectType = redirectType;
+    }
+
     public void setVisits(int visits) {
         this.visits = visits;
+    }
+
+    public void incrementVisits() {
+        this.visits++;
     }
 }

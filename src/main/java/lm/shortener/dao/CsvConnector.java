@@ -16,7 +16,6 @@ public class CsvConnector {
     }
 
     public void createRow(String[] newRow) throws IOException {
-        System.out.println("CSV path: " + csvFile);
         CSVWriter writer = new CSVWriter(new FileWriter(csvFile, true), ',');
         List<String[]> row = new ArrayList<String[]>();
         row.add(newRow);
@@ -24,11 +23,11 @@ public class CsvConnector {
         writer.flush();
     }
 
-    public String[] readRow(String key) throws IOException {
+    public String[] readRow(String key, int keyColumnIndex) throws IOException {
         CSVReader reader = new CSVReader(new FileReader(csvFile), ',');
         String[] row;
         while ((row = reader.readNext()) != null) {
-            if (key.trim().equals(row[0])) {
+            if (key.trim().equals(row[keyColumnIndex])) {
                 return row;
             }
         }

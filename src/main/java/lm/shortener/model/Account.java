@@ -9,9 +9,13 @@ public class Account {
     private String accountId;
     private String passwordHash;
 
-    public Account(String accountId, String password) {
+    public Account(String accountId, String password, boolean isHashPassword) {
         this.accountId = accountId;
-        this.passwordHash = getSecurePassword(password);
+        if(!isHashPassword) {
+            this.passwordHash = getSecurePassword(password);
+        } else {
+            this.passwordHash = password;
+        }
     }
 
     public String getAccountId() {
@@ -34,8 +38,6 @@ public class Account {
         String generatedPassword = null;
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-1");
-            byte[] salt = getSalt();
-            md.update(salt);
             byte[] bytes = md.digest(passwordToHash.getBytes());
             StringBuilder sb = new StringBuilder();
             for (byte aByte : bytes) {
@@ -46,12 +48,5 @@ public class Account {
             e.printStackTrace();
         }
         return generatedPassword;
-    }
-
-    private static byte[] getSalt() throws NoSuchAlgorithmException {
-        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
-        byte[] salt = new byte[16];
-        sr.nextBytes(salt);
-        return salt;
     }
 }

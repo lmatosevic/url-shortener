@@ -15,8 +15,9 @@ public class ShortenedUrlDaoImpl implements ModelDao<ShortenedUrl> {
     public ShortenedUrl find(String key) {
         ShortenedUrl shortenedUrl;
         try {
-            String[] row = csvConnector.readRow(key);
-            shortenedUrl = new ShortenedUrl(row[0], row[1]);
+            String[] row = csvConnector.readRow(key, 0);
+            int visits = Integer.parseInt(row[3]);
+            shortenedUrl = new ShortenedUrl(row[0], row[1], row[2], visits);
         } catch (Exception e) {
             return null;
         }
@@ -25,7 +26,8 @@ public class ShortenedUrlDaoImpl implements ModelDao<ShortenedUrl> {
 
     public boolean create(ShortenedUrl element) {
         try {
-            String[] row = new String[]{element.getShortUrl(), element.getFullUrl(), element.getVisitsString()};
+            String[] row = new String[]{element.getShortUrlCode(), element.getFullUrl(), element.getRedirectType(),
+                    element.getVisitsString()};
             csvConnector.createRow(row);
         } catch (IOException e) {
             return false;
@@ -36,8 +38,9 @@ public class ShortenedUrlDaoImpl implements ModelDao<ShortenedUrl> {
     public boolean update(ShortenedUrl element) {
         boolean success;
         try {
-            String[] row = new String[]{element.getShortUrl(), element.getFullUrl(), element.getVisitsString()};
-            success = csvConnector.updateRow(element.getShortUrl(), row);
+            String[] row = new String[]{element.getShortUrlCode(), element.getFullUrl(), element.getRedirectType(),
+                    element.getVisitsString()};
+            success = csvConnector.updateRow(element.getShortUrlCode(), row);
         } catch (IOException e) {
             return false;
         }
@@ -47,7 +50,7 @@ public class ShortenedUrlDaoImpl implements ModelDao<ShortenedUrl> {
     public boolean delete(ShortenedUrl element) {
         boolean success;
         try {
-            success = csvConnector.deleteRow(element.getShortUrl());
+            success = csvConnector.deleteRow(element.getShortUrlCode());
         } catch (IOException e) {
             return false;
         }
