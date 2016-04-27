@@ -9,28 +9,23 @@ import java.util.List;
 
 public class CsvConnector {
 
-    private CSVReader reader;
-    private CSVWriter writer;
-    private CSVWriter writerAppend;
+    private String csvFile;
 
     public CsvConnector(String csvFile) {
-        try {
-            reader = new CSVReader(new FileReader(csvFile), ',');
-            writer = new CSVWriter(new FileWriter(csvFile), ',');
-            writerAppend = new CSVWriter(new FileWriter(csvFile, true), ',');
-        } catch (Exception e) {
-            reader = null;
-            writer = null;
-        }
+        this.csvFile = csvFile;
     }
 
     public void createRow(String[] newRow) throws IOException {
+        System.out.println("CSV path: " + csvFile);
+        CSVWriter writer = new CSVWriter(new FileWriter(csvFile, true), ',');
         List<String[]> row = new ArrayList<String[]>();
         row.add(newRow);
-        writerAppend.writeAll(row);
+        writer.writeAll(row);
+        writer.flush();
     }
 
     public String[] readRow(String key) throws IOException {
+        CSVReader reader = new CSVReader(new FileReader(csvFile), ',');
         String[] row;
         while ((row = reader.readNext()) != null) {
             if (key.trim().equals(row[0])) {
@@ -41,6 +36,8 @@ public class CsvConnector {
     }
 
     public boolean updateRow(String key, String[] newRow) throws IOException {
+        CSVReader reader = new CSVReader(new FileReader(csvFile), ',');
+        CSVWriter writer = new CSVWriter(new FileWriter(csvFile), ',');
         List<String[]> csvBody = reader.readAll();
         for (String[] row : csvBody) {
             if (key.trim().equals(row[0])) {
@@ -58,6 +55,8 @@ public class CsvConnector {
     }
 
     public boolean deleteRow(String key) throws IOException {
+        CSVReader reader = new CSVReader(new FileReader(csvFile), ',');
+        CSVWriter writer = new CSVWriter(new FileWriter(csvFile), ',');
         boolean success = false;
         List<String[]> csvBody = reader.readAll();
         for (int i = 0; i < csvBody.size(); i++) {

@@ -3,10 +3,15 @@ package lm.shortener.dao;
 import lm.shortener.model.Account;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 
 public class AccountDaoImpl implements ModelDao<Account> {
 
-    private static CsvConnector csvConnector = new CsvConnector("data/account.csv");
+    private CsvConnector csvConnector;
+
+    public AccountDaoImpl(String dataPath) {
+        csvConnector = new CsvConnector(dataPath + "/account.csv");
+    }
 
     public Account find(String key) {
         Account account;

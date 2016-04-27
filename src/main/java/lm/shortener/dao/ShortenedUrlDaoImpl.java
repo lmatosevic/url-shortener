@@ -6,7 +6,11 @@ import java.io.IOException;
 
 public class ShortenedUrlDaoImpl implements ModelDao<ShortenedUrl> {
 
-    private static CsvConnector csvConnector = new CsvConnector("data/shortenedUrl.csv");
+    private CsvConnector csvConnector;
+
+    public ShortenedUrlDaoImpl(String dataPath) {
+        csvConnector = new CsvConnector(dataPath + "/shortenedUrl.csv");
+    }
 
     public ShortenedUrl find(String key) {
         ShortenedUrl shortenedUrl;
