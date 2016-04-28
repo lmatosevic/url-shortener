@@ -22,18 +22,20 @@ public class StatisticServlet extends HttpServlet {
         JSONObject jsonResponse = new JSONObject();
         try {
             String password = request.getHeader("Authorization");
-            if (accountDao.passwordExists(password)) {
-                List<ShortenedUrl> urls = shortenedUrlDao.findAll();
-                for (ShortenedUrl url : urls) {
-                    jsonResponse.put(url.getFullUrl(), url.getVisitsString());
-                }
+            if (password == null) {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             } else {
-                jsonResponse.put("success", false);
-                jsonResponse.put("description", "Authorization failed. Invalid password provided.");
+                if (accountDao.passwordExists(password)) {
+                    List<ShortenedUrl> urls = shortenedUrlDao.findAll();
+                    for (ShortenedUrl url : urls) {
+                        jsonResponse.put(url.getFullUrl(), url.getVisitsString());
+                    }
+                } else {
+                    response.sendError(HttpServletResponse.SC_FORBIDDEN);
+                }
             }
         } catch (Exception e) {
-            jsonResponse.put("success", false);
-            jsonResponse.put("description", "An error occured while trying to generate statistic.");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
         response.setContentType("application/json");
         response.getWriter().write(jsonResponse.toString());

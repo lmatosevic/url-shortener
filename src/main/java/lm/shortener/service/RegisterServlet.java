@@ -22,31 +22,33 @@ public class RegisterServlet extends HttpServlet {
         JSONObject jsonResponse = new JSONObject();
         try {
             String password = request.getHeader("Authorization");
-            if (accountDao.passwordExists(password)) {
-                String url = jsonUrl.getString("url");
-                String redirectType = ServiceHelper.DEFAULT_REDIRECT_TYPE;
-                if (jsonUrl.has("redirectType")) {
-                    redirectType = jsonUrl.getString("redirectType");
-                }
-                String shortUrlCode;
-                do {
-                    shortUrlCode = ServiceHelper.generateShortUrlCode();
-                } while (shortenedUrlDao.find(shortUrlCode) != null);
-                ShortenedUrl shortenedUrl = new ShortenedUrl(shortUrlCode, url, redirectType);
-                if (shortenedUrlDao.create(shortenedUrl)) {
-                    String currentUrl = request.getRequestURL().toString();
-                    String rootUrl = currentUrl.substring(0, currentUrl.lastIndexOf("/"));
-                    jsonResponse.put("shortUrl", rootUrl + "/short/" + shortUrlCode);
-                } else {
-                    throw new Exception();
-                }
+            if (password == null) {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             } else {
-                jsonResponse.put("success", false);
-                jsonResponse.put("description", "Authorization failed. Invalid password provided.");
+                if (accountDao.passwordExists(password)) {
+                    String url = jsonUrl.getString("url");
+                    String redirectType = ServiceHelper.DEFAULT_REDIRECT_TYPE;
+                    if (jsonUrl.has("redirectType")) {
+                        redirectType = jsonUrl.getString("redirectType");
+                    }
+                    String shortUrlCode;
+                    do {
+                        shortUrlCode = ServiceHelper.generateShortUrlCode();
+                    } while (shortenedUrlDao.find(shortUrlCode) != null);
+                    ShortenedUrl shortenedUrl = new ShortenedUrl(shortUrlCode, url, redirectType);
+                    if (shortenedUrlDao.create(shortenedUrl)) {
+                        String currentUrl = request.getRequestURL().toString();
+                        String rootUrl = currentUrl.substring(0, currentUrl.lastIndexOf("/"));
+                        jsonResponse.put("shortUrl", rootUrl + "/short/" + shortUrlCode);
+                    } else {
+                        response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                    }
+                } else {
+                    response.sendError(HttpServletResponse.SC_FORBIDDEN);
+                }
             }
         } catch (Exception e) {
-            jsonResponse.put("success", false);
-            jsonResponse.put("description", "An error occured while trying to register shortened url.");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
         response.setContentType("application/json");
         response.getWriter().write(jsonResponse.toString());

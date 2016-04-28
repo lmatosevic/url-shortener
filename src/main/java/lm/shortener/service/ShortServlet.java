@@ -28,7 +28,7 @@ public class ShortServlet extends HttpServlet {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
             }
         } catch (Exception e) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 }

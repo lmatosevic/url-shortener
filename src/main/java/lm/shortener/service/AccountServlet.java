@@ -20,22 +20,22 @@ public class AccountServlet extends HttpServlet {
         JSONObject jsonResponse = new JSONObject();
         try {
             String accountId = jsonAccount.getString("AccountId");
-            jsonResponse.put("success", true);
             if (accountDao.find(accountId) == null) {
                 String password = ServiceHelper.generatePassword();
                 Account account = new Account(accountId, password, false);
                 if (accountDao.create(account)) {
+                    jsonResponse.put("success", true);
                     jsonResponse.put("description", "Your account has been successfully created.");
                     jsonResponse.put("password", password);
                 } else {
-                    jsonResponse.put("description", "Account cannot be created. Problem with writing.");
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST);
                 }
             } else {
+                jsonResponse.put("success", false);
                 jsonResponse.put("description", "Account with provided id already exists.");
             }
         } catch (Exception e) {
-            jsonResponse.put("success", false);
-            jsonResponse.put("description", "Account cannot be created. Invalid input parameters.");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
 
         response.setContentType("application/json");
