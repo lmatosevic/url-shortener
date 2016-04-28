@@ -22,7 +22,7 @@ public class ShortServlet extends HttpServlet {
             if (shortenedUrl != null) {
                 shortenedUrl.incrementVisits();
                 shortenedUrlDao.update(shortenedUrl);
-                response.setStatus(Integer.valueOf(shortenedUrl.getRedirectType()));
+                response.setStatus(shortenedUrl.getRedirectTypeCode());
                 response.setHeader("Location", response.encodeRedirectURL(shortenedUrl.getFullUrl()));
             } else {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);

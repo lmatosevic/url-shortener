@@ -37,6 +37,11 @@ public class CsvConnector {
         return null;
     }
 
+    public List<String[]> readRows() throws IOException {
+        CSVReader reader = new CSVReader(new FileReader(csvFile), ',');
+        return reader.readAll();
+    }
+
     public boolean updateRow(String key, String[] newRow) throws IOException {
         CSVReader reader = new CSVReader(new FileReader(csvFile), ',');
         List<String[]> csvBody = reader.readAll();

@@ -3,6 +3,8 @@ package lm.shortener.dao;
 import lm.shortener.model.ShortenedUrl;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ShortenedUrlDaoImpl implements ModelDao<ShortenedUrl> {
 
@@ -22,6 +24,19 @@ public class ShortenedUrlDaoImpl implements ModelDao<ShortenedUrl> {
             return null;
         }
         return shortenedUrl;
+    }
+
+    public List<ShortenedUrl> findAll() {
+        List<ShortenedUrl> urls = new ArrayList<ShortenedUrl>();
+        try {
+            List<String[]> rows = csvConnector.readRows();
+            for (String[] row : rows) {
+                urls.add(new ShortenedUrl(row[0], row[1], row[2], Integer.valueOf(row[3])));
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return urls;
     }
 
     public boolean create(ShortenedUrl element) {

@@ -3,7 +3,8 @@ package lm.shortener.dao;
 import lm.shortener.model.Account;
 
 import java.io.IOException;
-import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AccountDaoImpl implements ModelDao<Account> {
 
@@ -22,6 +23,19 @@ public class AccountDaoImpl implements ModelDao<Account> {
             return null;
         }
         return account;
+    }
+
+    public List<Account> findAll() {
+        List<Account> accounts = new ArrayList<Account>();
+        try {
+            List<String[]> rows = csvConnector.readRows();
+            for (String[] row : rows) {
+                accounts.add(new Account(row[0], row[1], true));
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return accounts;
     }
 
     public boolean create(Account element) {

@@ -1,5 +1,7 @@
 package lm.shortener.model;
 
+import javax.servlet.http.HttpServletResponse;
+
 public class ShortenedUrl {
 
     private String shortUrlCode;
@@ -59,5 +61,15 @@ public class ShortenedUrl {
 
     public void incrementVisits() {
         this.visits++;
+    }
+
+    public int getRedirectTypeCode() {
+        if (redirectType.equals("301")) {
+            return HttpServletResponse.SC_MOVED_PERMANENTLY;
+        } else if (redirectType.equals("302")) {
+            return HttpServletResponse.SC_TEMPORARY_REDIRECT;
+        } else {
+            return HttpServletResponse.SC_TEMPORARY_REDIRECT;
+        }
     }
 }
