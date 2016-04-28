@@ -21,6 +21,7 @@ public class CsvConnector {
         row.add(newRow);
         writer.writeAll(row);
         writer.flush();
+        writer.close();
     }
 
     public String[] readRow(String key, int keyColumnIndex) throws IOException {
@@ -28,34 +29,37 @@ public class CsvConnector {
         String[] row;
         while ((row = reader.readNext()) != null) {
             if (key.trim().equals(row[keyColumnIndex])) {
+                reader.close();
                 return row;
             }
         }
+        reader.close();
         return null;
     }
 
     public boolean updateRow(String key, String[] newRow) throws IOException {
         CSVReader reader = new CSVReader(new FileReader(csvFile), ',');
-        CSVWriter writer = new CSVWriter(new FileWriter(csvFile), ',');
         List<String[]> csvBody = reader.readAll();
-        for (String[] row : csvBody) {
-            if (key.trim().equals(row[0])) {
-                if (row.length == newRow.length) {
-                    System.arraycopy(newRow, 0, row, 0, row.length);
+        for (String[] aCsvBody : csvBody) {
+            if (key.trim().equals(aCsvBody[0])) {
+                if (aCsvBody.length == newRow.length) {
+                    System.arraycopy(newRow, 0, aCsvBody, 0, aCsvBody.length);
                     break;
                 } else {
                     return false;
                 }
             }
         }
+        reader.close();
+        CSVWriter writer = new CSVWriter(new FileWriter(csvFile, false), ',');
         writer.writeAll(csvBody);
         writer.flush();
+        writer.close();
         return true;
     }
 
     public boolean deleteRow(String key) throws IOException {
         CSVReader reader = new CSVReader(new FileReader(csvFile), ',');
-        CSVWriter writer = new CSVWriter(new FileWriter(csvFile), ',');
         boolean success = false;
         List<String[]> csvBody = reader.readAll();
         for (int i = 0; i < csvBody.size(); i++) {
@@ -65,8 +69,11 @@ public class CsvConnector {
                 break;
             }
         }
+        reader.close();
+        CSVWriter writer = new CSVWriter(new FileWriter(csvFile, false), ',');
         writer.writeAll(csvBody);
         writer.flush();
+        writer.close();
         return success;
     }
 
