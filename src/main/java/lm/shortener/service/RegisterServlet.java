@@ -50,6 +50,7 @@ public class RegisterServlet extends HttpServlet {
         } catch (Exception e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
+        response.setStatus(HttpServletResponse.SC_CREATED);
         response.setContentType("application/json");
         response.getWriter().write(jsonResponse.toString());
     }
