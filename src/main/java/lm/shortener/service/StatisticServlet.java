@@ -27,8 +27,15 @@ public class StatisticServlet extends HttpServlet {
             } else {
                 if (accountDao.passwordExists(password)) {
                     List<ShortenedUrl> urls = shortenedUrlDao.findAll();
-                    for (ShortenedUrl url : urls) {
-                        jsonResponse.put(url.getFullUrl(), url.getVisitsString());
+                    for (ShortenedUrl url : urls) { // Obaviti map-reduce za iste urlove pozbrajate sve shortane visite
+                        if(!jsonResponse.has(url.getFullUrl())) {
+                            jsonResponse.put(url.getFullUrl(), url.getVisitsString());
+                        } else {
+                            int visits = Integer.parseInt(jsonResponse.getString(url.getFullUrl()));
+                            visits += url.getVisits();
+                            jsonResponse.remove(url.getFullUrl());
+                            jsonResponse.put(url.getFullUrl(), String.valueOf(visits));
+                        }
                     }
                 } else {
                     response.sendError(HttpServletResponse.SC_FORBIDDEN);

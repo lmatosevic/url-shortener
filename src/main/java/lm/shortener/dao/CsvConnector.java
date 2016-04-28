@@ -9,6 +9,8 @@ import java.util.List;
 
 public class CsvConnector {
 
+    private static final char CSV_DELIMITER = ',';
+
     private String csvFile;
 
     public CsvConnector(String csvFile) {
@@ -16,8 +18,8 @@ public class CsvConnector {
     }
 
     public void createRow(String[] newRow) throws IOException {
-        CSVWriter writer = new CSVWriter(new FileWriter(csvFile, true), ',');
-        List<String[]> row = new ArrayList<String[]>();
+        CSVWriter writer = new CSVWriter(new FileWriter(csvFile, true), CSV_DELIMITER);
+        List<String[]> row = new ArrayList<>();
         row.add(newRow);
         writer.writeAll(row);
         writer.flush();
@@ -25,7 +27,7 @@ public class CsvConnector {
     }
 
     public String[] readRow(String key, int keyColumnIndex) throws IOException {
-        CSVReader reader = new CSVReader(new FileReader(csvFile), ',');
+        CSVReader reader = new CSVReader(new FileReader(csvFile), CSV_DELIMITER);
         String[] row;
         while ((row = reader.readNext()) != null) {
             if (key.trim().equals(row[keyColumnIndex])) {
@@ -38,12 +40,14 @@ public class CsvConnector {
     }
 
     public List<String[]> readRows() throws IOException {
-        CSVReader reader = new CSVReader(new FileReader(csvFile), ',');
-        return reader.readAll();
+        CSVReader reader = new CSVReader(new FileReader(csvFile), CSV_DELIMITER);
+        List<String[]> rows = reader.readAll();
+        reader.close();
+        return rows;
     }
 
     public boolean updateRow(String key, String[] newRow) throws IOException {
-        CSVReader reader = new CSVReader(new FileReader(csvFile), ',');
+        CSVReader reader = new CSVReader(new FileReader(csvFile), CSV_DELIMITER);
         List<String[]> csvBody = reader.readAll();
         for (String[] aCsvBody : csvBody) {
             if (key.trim().equals(aCsvBody[0])) {
@@ -56,7 +60,7 @@ public class CsvConnector {
             }
         }
         reader.close();
-        CSVWriter writer = new CSVWriter(new FileWriter(csvFile, false), ',');
+        CSVWriter writer = new CSVWriter(new FileWriter(csvFile, false), CSV_DELIMITER);
         writer.writeAll(csvBody);
         writer.flush();
         writer.close();
@@ -64,7 +68,7 @@ public class CsvConnector {
     }
 
     public boolean deleteRow(String key) throws IOException {
-        CSVReader reader = new CSVReader(new FileReader(csvFile), ',');
+        CSVReader reader = new CSVReader(new FileReader(csvFile), CSV_DELIMITER);
         boolean success = false;
         List<String[]> csvBody = reader.readAll();
         for (int i = 0; i < csvBody.size(); i++) {
@@ -75,7 +79,7 @@ public class CsvConnector {
             }
         }
         reader.close();
-        CSVWriter writer = new CSVWriter(new FileWriter(csvFile, false), ',');
+        CSVWriter writer = new CSVWriter(new FileWriter(csvFile, false), CSV_DELIMITER);
         writer.writeAll(csvBody);
         writer.flush();
         writer.close();

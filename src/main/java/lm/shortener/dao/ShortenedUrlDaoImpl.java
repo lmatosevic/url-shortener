@@ -27,7 +27,7 @@ public class ShortenedUrlDaoImpl implements ModelDao<ShortenedUrl> {
     }
 
     public List<ShortenedUrl> findAll() {
-        List<ShortenedUrl> urls = new ArrayList<ShortenedUrl>();
+        List<ShortenedUrl> urls = new ArrayList<>();
         try {
             List<String[]> rows = csvConnector.readRows();
             for (String[] row : rows) {

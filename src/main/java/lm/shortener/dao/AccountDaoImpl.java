@@ -26,7 +26,7 @@ public class AccountDaoImpl implements ModelDao<Account> {
     }
 
     public List<Account> findAll() {
-        List<Account> accounts = new ArrayList<Account>();
+        List<Account> accounts = new ArrayList<>();
         try {
             List<String[]> rows = csvConnector.readRows();
             for (String[] row : rows) {
