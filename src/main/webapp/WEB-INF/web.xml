@@ -8,7 +8,7 @@
     HTTP service designed according to REST architectural style. API contains following functionalities:
     - Registering new user and shortened URL
     - Redirecting client depending on shortened URL
-    - Generating hit statistics
+    - Generating visit statistics
   </description>
 
   <servlet>
