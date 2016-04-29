@@ -27,7 +27,7 @@ public class StatisticServlet extends HttpServlet {
             } else {
                 if (accountDao.passwordExists(password)) {
                     List<ShortenedUrl> urls = shortenedUrlDao.findAll();
-                    for (ShortenedUrl url : urls) { // Obaviti map-reduce za iste urlove pozbrajate sve shortane visite
+                    for (ShortenedUrl url : urls) {
                         if(!jsonResponse.has(url.getFullUrl())) {
                             jsonResponse.put(url.getFullUrl(), url.getVisitsString());
                         } else {
