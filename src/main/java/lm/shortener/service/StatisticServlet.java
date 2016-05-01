@@ -16,7 +16,9 @@ import java.util.List;
 
 /**
  * Servlet that processes request from user and generates statistic. Statistic is showing number of visits for every
- * registered url in api. Authorization header is required for getting the results.
+ * registered url in api. Authorization header is required for getting the results. Account for which statistic is
+ * generated must be provided as part of uri, e.g. /statistic/John will generate statistic for all urls registered by
+ * account with id "John".
  *
  * Allowed methods: GET
  * Input: -
