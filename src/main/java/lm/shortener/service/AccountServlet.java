@@ -11,6 +11,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Servlet that processes request from user and creates a new account. Then it returns generated password which can be
+ * used for further authentication in api via heder attribute "Authorization". Password is returned only if creating new
+ * account was successful.
+ *
+ * Allowed methods: POST
+ * Input: json {"AccountId":"someIdString"}
+ * Output: json {"success": true|false, "description":"...", "password":"qwtr322c"}
+ * ContentType: application/json
+ * Mapping: /account
+ *
+ * @author Luka
+ */
 public class AccountServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

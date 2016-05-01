@@ -13,6 +13,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Servlet that processes request from user and generates statistic. Statistic is showing number of visits for every
+ * registered url in api. Authorization header is required for getting the results.
+ *
+ * Allowed methods: GET
+ * Input: -
+ * Output: json {"some full url":"number of visits", "some full url 2":"number of visits", ...}
+ * ContentType: application/json
+ * Mapping: /statistic
+ *
+ * @author Luka
+ */
 public class StatisticServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

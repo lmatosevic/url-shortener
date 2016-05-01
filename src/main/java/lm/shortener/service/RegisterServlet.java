@@ -12,6 +12,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Servlet that processes request from user and registers new shortened url. User must authenticate himself through
+ * "Authorization" header parameter in which user must provide password recieved after successful account creation.
+ *
+ * Allowed methods: POST
+ * Input: json {"url":"some long url"}
+ * Output: json {"shortUrl":"generated short url"}
+ * ContentType: application/json
+ * Mapping: /register
+ *
+ * @author Luka
+ */
 public class RegisterServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

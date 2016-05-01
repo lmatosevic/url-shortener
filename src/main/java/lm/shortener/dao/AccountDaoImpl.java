@@ -6,14 +6,27 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementation of data access object which provides all operations for Account objects. Storage is csv file.
+ *
+ * @author Luka
+ */
 public class AccountDaoImpl implements ModelDao<Account> {
 
     private CsvConnector csvConnector;
 
+    /**
+     * Constructor which initializes csv connector.
+     *
+     * @param dataPath File path to csv file which is used for storing accounts informations.
+     */
     public AccountDaoImpl(String dataPath) {
         csvConnector = new CsvConnector(dataPath + "/account.csv");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Account find(String key) {
         Account account;
         try {
@@ -25,6 +38,9 @@ public class AccountDaoImpl implements ModelDao<Account> {
         return account;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public List<Account> findAll() {
         List<Account> accounts = new ArrayList<>();
         try {
@@ -38,6 +54,9 @@ public class AccountDaoImpl implements ModelDao<Account> {
         return accounts;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean create(Account element) {
         try {
             String[] row = new String[]{element.getAccountId(), element.getPasswordHash()};
@@ -48,6 +67,9 @@ public class AccountDaoImpl implements ModelDao<Account> {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean update(Account element) {
         boolean success;
         try {
@@ -59,6 +81,9 @@ public class AccountDaoImpl implements ModelDao<Account> {
         return success;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean delete(Account element) {
         boolean success;
         try {
@@ -69,6 +94,12 @@ public class AccountDaoImpl implements ModelDao<Account> {
         return success;
     }
 
+    /**
+     * Additional method for searching objects by provided password string.
+     *
+     * @param password Password string of searched object.
+     * @return Account object if found, null otherwise.
+     */
     public Account findByPassword(String password) {
         Account account = new Account("", password, false);
         try {
@@ -80,6 +111,12 @@ public class AccountDaoImpl implements ModelDao<Account> {
         return account;
     }
 
+    /**
+     * Checks if account with provided password exists in storage.
+     *
+     * @param password Password stirng.
+     * @return True if account exists, false otherwise.
+     */
     public boolean passwordExists(String password) {
         return findByPassword(password) != null;
     }

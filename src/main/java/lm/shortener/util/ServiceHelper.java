@@ -8,8 +8,14 @@ import java.io.Reader;
 import java.security.SecureRandom;
 import java.util.Random;
 
+/**
+ * Utility class that provides bunch of configuration constants and methods used by servlets to do their work.
+ *
+ * @author Luka
+ */
 public class ServiceHelper {
 
+    /* Directory location in which are stored files with accounts and urls */
     public static final String DATA_DIR = "/data";
     public static final String DEFAULT_REDIRECT_TYPE = "302";
 
@@ -19,6 +25,12 @@ public class ServiceHelper {
     private static final String LETTERS = "abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXY";
     private static final String NUMBERS = "23456789";
 
+    /**
+     * Method that reads JSON string from input stream and converts it into JSON object.
+     *
+     * @param reader Input stream.
+     * @return Object representation of JSON string.
+     */
     public static JSONObject generateJson(Reader reader) {
         String jsonData = "";
         BufferedReader br = null;
@@ -42,6 +54,11 @@ public class ServiceHelper {
         return new JSONObject(jsonData);
     }
 
+    /**
+     * Generates random password using provided letters and number. Length of password is also constant.
+     *
+     * @return Random password string.
+     */
     public static String generatePassword() {
         String letters = LETTERS + NUMBERS;
 
@@ -53,6 +70,12 @@ public class ServiceHelper {
         return password;
     }
 
+    /**
+     * Generates shortened url code using only provided letters. This code is used to access full url via shortened one.
+     * If this method generates following code: xCwqZj, then shortened url will be: http://my.url/short/xCwqZj.
+     *
+     * @return Shortened url code string.
+     */
     public static String generateShortUrlCode() {
         String letters = LETTERS;
 

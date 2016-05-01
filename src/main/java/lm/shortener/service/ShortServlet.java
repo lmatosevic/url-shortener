@@ -10,6 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Servlet that redirects user from short url to original url location. Short url code is representing virtual location
+ * on server. Servlet reads last part of short url and uses code to find full url from storage and redirects user to
+ * original url location with coresponding http redirect type code(301 or 302). Before redirecting, number of visits for
+ * requested url is incremented.
+ *
+ * Allowed methods: GET
+ * Input: -
+ * Output: -
+ * ContentType: -
+ * Mapping: /short/*
+ *
+ * @author Luka
+ */
 public class ShortServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

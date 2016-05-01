@@ -1,6 +1,5 @@
 package lm.shortener.model;
 
-import lm.shortener.model.ShortenedUrl;
 import lm.shortener.util.ServiceHelper;
 import org.junit.Assert;
 import org.junit.Test;

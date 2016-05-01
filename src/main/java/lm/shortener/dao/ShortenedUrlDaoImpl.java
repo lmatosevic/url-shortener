@@ -6,14 +6,27 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementation of data access object which provides all operations for ShortenedUrl objects. Storage is csv file.
+ *
+ * @author Luka
+ */
 public class ShortenedUrlDaoImpl implements ModelDao<ShortenedUrl> {
 
     private CsvConnector csvConnector;
 
+    /**
+     * Constructor which initializes csv connector.
+     *
+     * @param dataPath File path to csv file which is used for storing shortened url informations.
+     */
     public ShortenedUrlDaoImpl(String dataPath) {
         csvConnector = new CsvConnector(dataPath + "/shortenedUrl.csv");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public ShortenedUrl find(String key) {
         ShortenedUrl shortenedUrl;
         try {
@@ -26,6 +39,9 @@ public class ShortenedUrlDaoImpl implements ModelDao<ShortenedUrl> {
         return shortenedUrl;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public List<ShortenedUrl> findAll() {
         List<ShortenedUrl> urls = new ArrayList<>();
         try {
@@ -39,6 +55,9 @@ public class ShortenedUrlDaoImpl implements ModelDao<ShortenedUrl> {
         return urls;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean create(ShortenedUrl element) {
         try {
             String[] row = new String[]{element.getShortUrlCode(), element.getFullUrl(), element.getRedirectType(),
@@ -50,6 +69,9 @@ public class ShortenedUrlDaoImpl implements ModelDao<ShortenedUrl> {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean update(ShortenedUrl element) {
         boolean success;
         try {
@@ -62,6 +84,9 @@ public class ShortenedUrlDaoImpl implements ModelDao<ShortenedUrl> {
         return success;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean delete(ShortenedUrl element) {
         boolean success;
         try {
