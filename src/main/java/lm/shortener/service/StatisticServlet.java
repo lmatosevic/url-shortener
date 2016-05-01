@@ -56,7 +56,11 @@ public class StatisticServlet extends HttpServlet {
                         }
                     }
                 } else {
-                    response.sendError(HttpServletResponse.SC_FORBIDDEN);
+                    if(account == null) {
+                        response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                    } else {
+                        response.sendError(HttpServletResponse.SC_FORBIDDEN);
+                    }
                 }
             }
         } catch (Exception e) {
