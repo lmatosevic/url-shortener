@@ -15,8 +15,8 @@
   <li>Send POST request to /url-shortener/register with following body content: {"url":"SomeLongUrl"}</li>
   <li>Read response and save returned shortUrl link, something like /url-shortener/short/xCqWElzY</li>
   <li>Go to returned short url and you will be redirected to the long url you provided in step 3</li>
-  <li>To get statistics, send GET request to /url-shortener/statistic , response will be json array with registered urls
-    and numbers of visits</li>
+  <li>To get statistics, send GET request to /url-shortener/statistic/SomeName (accountId used when creating account),
+    response will be json array with registered urls and numbers of visits</li>
 </ol>
 </body>
 </html>
