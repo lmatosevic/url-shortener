@@ -16,6 +16,8 @@ public class ServiceHelper {
     private static final Random RANDOM = new SecureRandom();
     private static final int PASSWORD_LENGTH = 8;
     private static final int URL_LENGTH = 6;
+    private static final String LETTERS = "abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXY";
+    private static final String NUMBERS = "23456789";
 
     public static JSONObject generateJson(Reader reader) {
         String jsonData = "";
@@ -41,7 +43,7 @@ public class ServiceHelper {
     }
 
     public static String generatePassword() {
-        String letters = "abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789";
+        String letters = LETTERS + NUMBERS;
 
         String password = "";
         for (int i = 0; i < PASSWORD_LENGTH; i++) {
@@ -52,7 +54,7 @@ public class ServiceHelper {
     }
 
     public static String generateShortUrlCode() {
-        String letters = "abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ";
+        String letters = LETTERS;
 
         String url = "";
         for (int i = 0; i < URL_LENGTH; i++) {

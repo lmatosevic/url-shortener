@@ -67,9 +67,9 @@ public class ShortenedUrl {
         if (redirectType.equals("301")) {
             return HttpServletResponse.SC_MOVED_PERMANENTLY;
         } else if (redirectType.equals("302")) {
-            return HttpServletResponse.SC_TEMPORARY_REDIRECT;
+            return HttpServletResponse.SC_MOVED_TEMPORARILY;
         } else {
-            return HttpServletResponse.SC_TEMPORARY_REDIRECT;
+            return HttpServletResponse.SC_MOVED_TEMPORARILY;
         }
     }
 }
