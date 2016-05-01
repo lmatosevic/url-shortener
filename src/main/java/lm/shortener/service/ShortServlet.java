@@ -31,7 +31,7 @@ public class ShortServlet extends HttpServlet {
 
         try {
             String uri = request.getRequestURI();
-            String shortUrlCode = uri.substring(uri.lastIndexOf('/') + 1);
+            String shortUrlCode = uri.substring(uri.lastIndexOf("/short/") + 7);
             ShortenedUrl shortenedUrl = shortenedUrlDao.find(shortUrlCode);
             if (shortenedUrl != null) {
                 shortenedUrl.incrementVisits();

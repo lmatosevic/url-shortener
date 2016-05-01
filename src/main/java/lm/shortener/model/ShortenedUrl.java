@@ -11,6 +11,7 @@ public class ShortenedUrl {
 
     private String shortUrlCode;
     private String fullUrl;
+    private String accountId;
     private String redirectType;
     private int visits;
 
@@ -18,12 +19,13 @@ public class ShortenedUrl {
      * Constructor that initializes properties and sets number of visits to zero.
      *
      * @param shortUrlCode Short url code.
-     * @param fullUrl Url that is shortened.
+     * @param fullUrl      Url that is shortened.
      * @param redirectType Http return code, two possibilities 301 or 302.
      */
-    public ShortenedUrl(String shortUrlCode, String fullUrl, String redirectType) {
+    public ShortenedUrl(String shortUrlCode, String fullUrl, String accountId, String redirectType) {
         this.fullUrl = fullUrl;
         this.shortUrlCode = shortUrlCode;
+        this.accountId = accountId;
         this.redirectType = redirectType;
         this.visits = 0;
     }
@@ -32,13 +34,14 @@ public class ShortenedUrl {
      * Constructor that initializes properties.
      *
      * @param shortUrlCode Short url code.
-     * @param fullUrl Url that is shortened.
+     * @param fullUrl      Url that is shortened.
      * @param redirectType Http return code, two possibilities 301 or 302.
-     * @param visits Number of visits.
+     * @param visits       Number of visits.
      */
-    public ShortenedUrl(String shortUrlCode, String fullUrl, String redirectType, int visits) {
+    public ShortenedUrl(String shortUrlCode, String fullUrl, String accountId, String redirectType, int visits) {
         this.fullUrl = fullUrl;
         this.shortUrlCode = shortUrlCode;
+        this.accountId = accountId;
         this.redirectType = redirectType;
         this.visits = visits;
     }
@@ -57,6 +60,14 @@ public class ShortenedUrl {
 
     public void setShortUrlCode(String shortUrl) {
         this.shortUrlCode = shortUrl;
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
     }
 
     public int getVisits() {
@@ -89,12 +100,13 @@ public class ShortenedUrl {
      * @return HttpServletResponse redirect code.
      */
     public int getRedirectTypeCode() {
-        if (redirectType.equals("301")) {
-            return HttpServletResponse.SC_MOVED_PERMANENTLY;
-        } else if (redirectType.equals("302")) {
-            return HttpServletResponse.SC_MOVED_TEMPORARILY;
-        } else {
-            return HttpServletResponse.SC_MOVED_TEMPORARILY;
+        switch (redirectType) {
+            case "301":
+                return HttpServletResponse.SC_MOVED_PERMANENTLY;
+            case "302":
+                return HttpServletResponse.SC_MOVED_TEMPORARILY;
+            default:
+                return HttpServletResponse.SC_MOVED_TEMPORARILY;
         }
     }
 }

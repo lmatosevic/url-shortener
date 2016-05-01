@@ -31,8 +31,8 @@ public class ShortenedUrlDaoImpl implements ModelDao<ShortenedUrl> {
         ShortenedUrl shortenedUrl;
         try {
             String[] row = csvConnector.readRow(key, 0);
-            int visits = Integer.parseInt(row[3]);
-            shortenedUrl = new ShortenedUrl(row[0], row[1], row[2], visits);
+            int visits = Integer.parseInt(row[4]);
+            shortenedUrl = new ShortenedUrl(row[0], row[1], row[2], row[3], visits);
         } catch (Exception e) {
             return null;
         }
@@ -47,10 +47,10 @@ public class ShortenedUrlDaoImpl implements ModelDao<ShortenedUrl> {
         try {
             List<String[]> rows = csvConnector.readRows();
             for (String[] row : rows) {
-                urls.add(new ShortenedUrl(row[0], row[1], row[2], Integer.valueOf(row[3])));
+                urls.add(new ShortenedUrl(row[0], row[1], row[2], row[3], Integer.parseInt(row[4])));
             }
         } catch (Exception e) {
-            return null;
+            return new ArrayList<>();
         }
         return urls;
     }
@@ -60,8 +60,8 @@ public class ShortenedUrlDaoImpl implements ModelDao<ShortenedUrl> {
      */
     public boolean create(ShortenedUrl element) {
         try {
-            String[] row = new String[]{element.getShortUrlCode(), element.getFullUrl(), element.getRedirectType(),
-                    element.getVisitsString()};
+            String[] row = new String[]{element.getShortUrlCode(), element.getFullUrl(), element.getAccountId(),
+                    element.getRedirectType(), element.getVisitsString()};
             csvConnector.createRow(row);
         } catch (IOException e) {
             return false;
@@ -75,8 +75,8 @@ public class ShortenedUrlDaoImpl implements ModelDao<ShortenedUrl> {
     public boolean update(ShortenedUrl element) {
         boolean success;
         try {
-            String[] row = new String[]{element.getShortUrlCode(), element.getFullUrl(), element.getRedirectType(),
-                    element.getVisitsString()};
+            String[] row = new String[]{element.getShortUrlCode(), element.getFullUrl(), element.getAccountId(),
+                    element.getRedirectType(), element.getVisitsString()};
             success = csvConnector.updateRow(element.getShortUrlCode(), row);
         } catch (IOException e) {
             return false;
@@ -95,5 +95,21 @@ public class ShortenedUrlDaoImpl implements ModelDao<ShortenedUrl> {
             return false;
         }
         return success;
+    }
+
+    /**
+     * Finds all registered urls by user with provided account id.
+     *
+     * @param accountId Account id which was used to register urls.
+     * @return List of all urls that are registerd by account with provided id.
+     */
+    public List<ShortenedUrl> findAllByAccountId(String accountId) {
+        List<ShortenedUrl> matchingUrls = new ArrayList<>();
+        for(ShortenedUrl url : findAll()) {
+            if(url.getAccountId().equals(accountId)) {
+                matchingUrls.add(url);
+            }
+        }
+        return matchingUrls;
     }
 }

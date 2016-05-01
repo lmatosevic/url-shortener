@@ -11,7 +11,7 @@ public class ShortenedUrlTest {
     @Test
     public void creationInitialTest() {
         String shortUrl = ServiceHelper.generateShortUrlCode();
-        ShortenedUrl shortenedUrl = new ShortenedUrl(shortUrl, "http://www.test.com?id=12431&tab=home", "301");
+        ShortenedUrl shortenedUrl = new ShortenedUrl(shortUrl, "http://www.test.com?id=12431&tab=home", "John", "301");
         Assert.assertEquals("Short url code must be " + shortUrl, shortUrl, shortenedUrl.getShortUrlCode());
         Assert.assertEquals("Full url must be http://www.test.com?id=12431&tab=home",
                 "http://www.test.com?id=12431&tab=home", shortenedUrl.getFullUrl());
@@ -21,14 +21,16 @@ public class ShortenedUrlTest {
     @Test
     public void creationFullTest() {
         String shortUrl = ServiceHelper.generateShortUrlCode();
-        ShortenedUrl shortenedUrl = new ShortenedUrl(shortUrl, "http://www.test.com?id=12431&tab=home", "301", 123);
+        ShortenedUrl shortenedUrl = new ShortenedUrl(shortUrl, "http://www.test.com?id=12431&tab=home", "John", "301",
+                123);
         Assert.assertEquals("Number of visits must be 123", "123", shortenedUrl.getVisitsString());
     }
 
     @Test
     public void visitsIncrementationTest() {
         String shortUrl = ServiceHelper.generateShortUrlCode();
-        ShortenedUrl shortenedUrl = new ShortenedUrl(shortUrl, "http://www.test.com?id=12431&tab=home", "301", 123);
+        ShortenedUrl shortenedUrl = new ShortenedUrl(shortUrl, "http://www.test.com?id=12431&tab=home", "John", "301",
+                123);
         shortenedUrl.incrementVisits();
         Assert.assertEquals("Number of visits must be 124", "124", shortenedUrl.getVisitsString());
     }
@@ -36,7 +38,8 @@ public class ShortenedUrlTest {
     @Test
     public void redirectTypeCodeTest() {
         String shortUrl = ServiceHelper.generateShortUrlCode();
-        ShortenedUrl shortenedUrl = new ShortenedUrl(shortUrl, "http://www.test.com?id=12431&tab=home", "301", 123);
+        ShortenedUrl shortenedUrl = new ShortenedUrl(shortUrl, "http://www.test.com?id=12431&tab=home", "John", "301",
+                123);
         Assert.assertEquals("Redirect type must be permanently", HttpServletResponse.SC_MOVED_PERMANENTLY,
                 shortenedUrl.getRedirectTypeCode());
         shortenedUrl.setRedirectType("302");

@@ -62,6 +62,7 @@ public class StatisticServletTest extends ServiceMock {
     public void getStatisticTest() throws Exception {
         StringWriter stringWriter = mockInputOutputStreams("");
         when(request.getHeader("Authorization")).thenReturn(password);
+        when(request.getRequestURI()).thenReturn("localhost:8080/statistic/John");
         statisticServlet.doGet(request, response);
         String servletResponse = stringWriter.toString();
         String expectedStats = "";

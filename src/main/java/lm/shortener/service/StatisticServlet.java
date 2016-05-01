@@ -2,6 +2,7 @@ package lm.shortener.service;
 
 import lm.shortener.dao.AccountDaoImpl;
 import lm.shortener.dao.ShortenedUrlDaoImpl;
+import lm.shortener.model.Account;
 import lm.shortener.model.ShortenedUrl;
 import lm.shortener.util.ServiceHelper;
 import org.json.JSONObject;
@@ -21,7 +22,7 @@ import java.util.List;
  * Input: -
  * Output: json {"some full url":"number of visits", "some full url 2":"number of visits", ...}
  * ContentType: application/json
- * Mapping: /statistic
+ * Mapping: /statistic/*
  *
  * @author Luka
  */
@@ -37,8 +38,11 @@ public class StatisticServlet extends HttpServlet {
             if (password == null) {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             } else {
-                if (accountDao.passwordExists(password)) {
-                    List<ShortenedUrl> urls = shortenedUrlDao.findAll();
+                String uri = request.getRequestURI();
+                String accountId = uri.substring(uri.lastIndexOf("/statistic/") + 11);
+                Account account = accountDao.find(accountId);
+                if (accountDao.passwordExists(password) && account != null) {
+                    List<ShortenedUrl> urls = shortenedUrlDao.findAllByAccountId(account.getAccountId());
                     for (ShortenedUrl url : urls) {
                         if(!jsonResponse.has(url.getFullUrl())) {
                             jsonResponse.put(url.getFullUrl(), url.getVisitsString());
