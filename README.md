@@ -21,3 +21,7 @@ After building is finished, deploy WAR located in `target/url-shortener.war` usi
 | /register              | Register new URL     | POST         | {"url": "https://verylongurl.com", "redirectType: 301} | {shortUrl: "http://short.com/zwQpuM}                          |
 | /statistic/{AccountId} | Get statistics       | GET          | -                                                      | {"http://verylong1.com": 5, "http://verylong2.com": 18, ...}  |
 | /help                  | Display help page    | GET          | -                                                      | HTML help page content                                        |
+
+LICENSE
+---
+MIT
