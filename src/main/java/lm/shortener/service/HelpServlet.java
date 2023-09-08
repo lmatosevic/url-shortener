@@ -8,7 +8,7 @@ import java.io.IOException;
 
 /**
  * Servlet that returns content of jsp page index.jsp which contains instructions for using this api.
- *
+ * <p>
  * Allowed methods: POST, GET
  * Input: -
  * Output: html page

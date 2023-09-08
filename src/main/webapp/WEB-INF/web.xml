@@ -11,6 +11,11 @@
     - Generating visit statistics
   </description>
 
+  <context-param>
+    <param-name>DATA_DIR</param-name>
+    <param-value>../work/url_shortener</param-value>
+  </context-param>
+
   <servlet>
     <servlet-name>HelpServlet</servlet-name>
     <servlet-class>lm.shortener.service.HelpServlet</servlet-class>

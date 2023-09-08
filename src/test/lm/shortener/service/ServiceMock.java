@@ -22,7 +22,7 @@ public class ServiceMock extends Mockito {
         ServletConfig config = mock(ServletConfig.class);
         ServletContext context = mock(ServletContext.class);
         when(config.getServletContext()).thenReturn(context);
-        when(context.getRealPath(ServiceHelper.DATA_DIR)).thenReturn(TEST_PATH);
+        when(context.getInitParameter(ServiceHelper.DATA_DIR_PARAM)).thenReturn(TEST_PATH);
         servlet.init(config);
     }
 

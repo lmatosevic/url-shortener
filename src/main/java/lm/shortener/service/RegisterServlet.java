@@ -28,8 +28,9 @@ import java.io.IOException;
 public class RegisterServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        AccountDaoImpl accountDao = new AccountDaoImpl(getServletContext().getRealPath(ServiceHelper.DATA_DIR));
-        ShortenedUrlDaoImpl shortenedUrlDao = new ShortenedUrlDaoImpl(getServletContext().getRealPath(ServiceHelper.DATA_DIR));
+        String dataDir = getServletContext().getInitParameter(ServiceHelper.DATA_DIR_PARAM);
+        AccountDaoImpl accountDao = new AccountDaoImpl(dataDir);
+        ShortenedUrlDaoImpl shortenedUrlDao = new ShortenedUrlDaoImpl(dataDir);
         JSONObject jsonUrl = ServiceHelper.generateJson(request.getReader());
 
         JSONObject jsonResponse = new JSONObject();

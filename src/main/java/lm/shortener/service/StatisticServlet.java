@@ -19,7 +19,7 @@ import java.util.List;
  * registered url in api. Authorization header is required for getting the results. Account for which statistic is
  * generated must be provided as part of uri, e.g. /statistic/John will generate statistic for all urls registered by
  * account with id "John".
- *
+ * <p>
  * Allowed methods: GET
  * Input: -
  * Output: json {"some full url":"number of visits", "some full url 2":"number of visits", ...}
@@ -31,8 +31,9 @@ import java.util.List;
 public class StatisticServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        AccountDaoImpl accountDao = new AccountDaoImpl(getServletContext().getRealPath(ServiceHelper.DATA_DIR));
-        ShortenedUrlDaoImpl shortenedUrlDao = new ShortenedUrlDaoImpl(getServletContext().getRealPath(ServiceHelper.DATA_DIR));
+        String dataDir = getServletContext().getInitParameter(ServiceHelper.DATA_DIR_PARAM);
+        AccountDaoImpl accountDao = new AccountDaoImpl(dataDir);
+        ShortenedUrlDaoImpl shortenedUrlDao = new ShortenedUrlDaoImpl(dataDir);
 
         JSONObject jsonResponse = new JSONObject();
         try {
@@ -46,7 +47,7 @@ public class StatisticServlet extends HttpServlet {
                 if (accountDao.passwordExists(password) && account != null) {
                     List<ShortenedUrl> urls = shortenedUrlDao.findAllByAccountId(account.getAccountId());
                     for (ShortenedUrl url : urls) {
-                        if(!jsonResponse.has(url.getFullUrl())) {
+                        if (!jsonResponse.has(url.getFullUrl())) {
                             jsonResponse.put(url.getFullUrl(), url.getVisitsString());
                         } else {
                             int visits = Integer.parseInt(jsonResponse.getString(url.getFullUrl()));
@@ -56,7 +57,7 @@ public class StatisticServlet extends HttpServlet {
                         }
                     }
                 } else {
-                    if(account == null) {
+                    if (account == null) {
                         response.sendError(HttpServletResponse.SC_BAD_REQUEST);
                     } else {
                         response.sendError(HttpServletResponse.SC_FORBIDDEN);

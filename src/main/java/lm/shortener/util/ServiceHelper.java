@@ -14,9 +14,7 @@ import java.util.Random;
  * @author Luka
  */
 public class ServiceHelper {
-
-    /* Directory location in which are stored files with accounts and urls */
-    public static final String DATA_DIR = "/data";
+    public static final String DATA_DIR_PARAM = "DATA_DIR";
     public static final String DEFAULT_REDIRECT_TYPE = "302";
 
     private static final Random RANDOM = new SecureRandom();

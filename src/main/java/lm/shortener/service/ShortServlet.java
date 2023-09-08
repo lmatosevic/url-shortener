@@ -15,7 +15,7 @@ import java.io.IOException;
  * on server. Servlet reads last part of short url and uses code to find full url from storage and redirects user to
  * original url location with coresponding http redirect type code(301 or 302). Before redirecting, number of visits for
  * requested url is incremented.
- *
+ * <p>
  * Allowed methods: GET
  * Input: -
  * Output: -
@@ -27,7 +27,7 @@ import java.io.IOException;
 public class ShortServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ShortenedUrlDaoImpl shortenedUrlDao = new ShortenedUrlDaoImpl(getServletContext().getRealPath(ServiceHelper.DATA_DIR));
+        ShortenedUrlDaoImpl shortenedUrlDao = new ShortenedUrlDaoImpl(getServletContext().getInitParameter(ServiceHelper.DATA_DIR_PARAM));
 
         try {
             String uri = request.getRequestURI();

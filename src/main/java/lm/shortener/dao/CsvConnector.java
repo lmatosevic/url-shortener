@@ -16,15 +16,27 @@ public class CsvConnector {
 
     private static final char CSV_DELIMITER = ',';
 
-    private String csvFile;
+    private final String csvFile;
 
     /**
-     * Constructor that initializes storage csv file path.
+     * Constructor that initializes storage csv file path and creates missing directories and empty file if they don't
+     * exist already.
      *
      * @param csvFile Csv file path.
      */
     public CsvConnector(String csvFile) {
         this.csvFile = csvFile;
+        File file = new File(this.csvFile);
+        if (!file.getParentFile().exists()) {
+            file.getParentFile().mkdirs();
+        }
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     /**
@@ -45,7 +57,7 @@ public class CsvConnector {
     /**
      * Reads csv row from file based on provided key and key column.
      *
-     * @param key String value of key used for searching desired row.
+     * @param key            String value of key used for searching desired row.
      * @param keyColumnIndex Index of column in which key is positioned.
      * @return Searched row as array of strings or null if not found.
      * @throws IOException
@@ -79,7 +91,7 @@ public class CsvConnector {
     /**
      * Updates row with new values.
      *
-     * @param key Identifier of row which needs to be updated.
+     * @param key    Identifier of row which needs to be updated.
      * @param newRow New row values.
      * @return True if row is successfuly updated, false otherwise.
      * @throws IOException
